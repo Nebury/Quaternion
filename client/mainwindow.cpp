@@ -18,6 +18,7 @@
  **************************************************************************/
 
 #include "mainwindow.h"
+#include <iostream>
 
 #include "roomlistdock.h"
 #include "userlistdock.h"
@@ -74,6 +75,78 @@ using Quotient::Settings;
 using Quotient::AccountSettings;
 using Quotient::Uri;
 
+void MainWindow::resizeEvent(QResizeEvent *newSize){
+
+    int width = newSize->size().width();
+    int height = newSize->size().height();
+    int widthViejo = newSize->oldSize().width();
+    int heightViejo = newSize->oldSize().height();
+    int area = width * height ;
+    int areaVieja = widthViejo * heightViejo ;
+
+    bool esLandscape = width > height;
+    if ( esLandscape && width > 1980){
+        std::cout << "landscape high DPI \n" ;
+        if (area % 2 == 0) {
+            std ::cout << "area par \n";
+        }
+    }
+    else if (width == height ){
+        std::cout << "simetrico \n";
+    }
+    else if (esLandscape) {
+        std::cout << "landscape low DPI  \n";
+    }
+    else if (width == height ) {
+        std::cout << "portrait \n";
+    }
+    else if (!esLandscape && height > 1980) {
+        std::cout << "portrait  high DPI \n";
+    }
+    else {
+        std::cout << "portrait low DPI \n";
+    }
+
+    std::cout << "el tamano es (" << width << " , " << height << ") \n ";
+    std::cout << "el tamano del area es: " << area << " Y el tamaño incial fue: " << areaVieja <<"\n";
+    if (abs(area - areaVieja) >= 400){
+        std::cout << "El cambio fue superior a 400 pixeles /n"; 
+    } else {
+
+    }
+}
+    /*void MainWindow::keyPressEvent(QKeyEvent *event){
+
+        Qt::KeyboardModifiers mod = event->modifiers();
+        int key = event->key();
+
+        std::cout << "Se presiono un boton \n" << key << "\n";
+        switch(mod){
+
+            case Qt::ControlModifier: 
+                if(key == 48){
+                    resize(100 , 100);
+                }
+                else if(key == 49){
+                    resize(200 , 200);
+                }
+                else if(key == 50){
+                    resize(300 , 300);
+                }
+                else if(key == 51){
+                    resize(400 , 400);
+                }
+                else if(key == 52){
+                    resize(500 , 500);
+                }
+                break;
+            default:
+                QWidget::keyPressEvent(event);
+
+        }
+
+    }*/
+
 MainWindow::MainWindow()
 {
     Connection::setRoomType<QuaternionRoom>();
@@ -121,6 +194,8 @@ MainWindow::MainWindow()
     busyLabel->show();
     busyIndicator->start();
     QTimer::singleShot(0, this, SLOT(invokeLogin()));
+
+    setFocusPolicy(Qt::ClickFocus);
 }
 
 MainWindow::~MainWindow()
