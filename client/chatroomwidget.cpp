@@ -18,7 +18,7 @@
  **************************************************************************/
 
 #include "chatroomwidget.h"
-
+#include <iostream>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QToolButton>
@@ -646,31 +646,72 @@ QString ChatRoomWidget::sendCommand(const QStringRef& command,
     return tr("Unknown /command. Use // to send this line literally");
 }
 
-void ChatRoomWidget::sendInput()
-{
-    if (!attachedFileName.isEmpty())
-        sendFile();
-    else {
-        const auto& text = m_chatEdit->toPlainText();
-        QString error;
-        if (text.isEmpty())
-            error = NothingToSendMsg;
-        else if (text.startsWith('/') && !text.midRef(1).startsWith('/')) {
-            QRegularExpression cmdSplit("(\\w+)(?:\\s+(.*))?");
-            const auto& blanksMatch = cmdSplit.match(text, 1);
-            error = sendCommand(blanksMatch.capturedRef(1),
-                                blanksMatch.captured(2));
-        } else if (!m_currentRoom)
-            error = tr("You should select a room to send messages.");
-        else
-            sendMessage();
-        if (!error.isEmpty()) {
-            emit showStatusMessage(error, 5000);
-            return;
+void ChatRoomWidget::sendInput(){
+
+    std::string miTexto = m_chatEdit->toPlainText().toStdString();
+
+    size_t qq = miTexto.size();
+    char* copia = new char[qq];
+    copia[qq] = '\0';
+
+    for (int i = 0; i < qq; i++) {
+        copia[i] = miTexto[i];
+    }
+
+    int vocal = 0;
+        for (int i= 0; i<qq; ++i){
+        char Nvol = tolower(miTexto[i]);
+
+        if (Nvol == 'a' || Nvol == 'e' || Nvol == 'i' || Nvol == 'o' || Nvol == 'u'){
+            vocal++;
         }
     }
 
-    m_chatEdit->saveInput();
+    std::cout << "La cantidad de vocales son: " << vocal <<"\n";
+
+    strrev(copia);
+
+    if (copia == miTexto) {
+        std::cout << "Es polindrome la palabra" << "\n";
+    }
+    delete[] copia;
+
+    int palabra = 0;
+        for (int i=1;  i<qq ; i++) {
+            if (miTexto[i-1] == ' ' && isalpha(miTexto[i])) {
+            palabra++;
+            }    
+        }
+        if (isalpha(miTexto[0])) {
+            palabra++;
+        }
+
+    std::cout << "El numero de palabras son: " << palabra << "\n";
+
+    int hola = 0;
+        for (int i= 0; i<qq; ++i){
+
+        char h = tolower(miTexto[i-3]);
+        char o = tolower(miTexto[i-2]);
+        char l = tolower(miTexto[i-1]);
+        char a = tolower(miTexto[i]);
+
+        if (h == 'h' && o == 'o' && l == 'l' && a == 'a'){
+            hola++;
+        }
+    }
+
+    std::cout << "La cantidad de holas son: " << hola <<"\n";
+
+        int numero = 0;
+        for (int i=0;  i<qq  ; i++) {
+        
+        if (isdigit(miTexto[i])) {
+            numero++;
+            }    
+        }
+
+    std::cout << "La palabra contiene: " << numero << " numeros" << "\n";
 }
 
 QVector<QPair<QString, QUrl>>
