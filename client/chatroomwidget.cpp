@@ -651,11 +651,11 @@ void ChatRoomWidget::sendInput(){
     std::string miTexto = m_chatEdit->toPlainText().toStdString();
 
     size_t qq = miTexto.size();
-    char* copia = new char[qq];
-    copia[qq] = '\0';
+    char* textoCopia = new char[qq];
+    textoCopia[qq] = '\0';
 
     for (int i = 0; i < qq; i++) {
-        copia[i] = miTexto[i];
+        textoCopia[i] = miTexto[i];
     }
 
     int vocal = 0;
@@ -669,12 +669,12 @@ void ChatRoomWidget::sendInput(){
 
     std::cout << "La cantidad de vocales son: " << vocal <<"\n";
 
-    strrev(copia);
+    strrev(textoCopia);
 
-    if (copia == miTexto) {
+    if (textoCopia == miTexto) {
         std::cout << "Es polindrome la palabra" << "\n";
     }
-    delete[] copia;
+    delete[] textoCopia;
 
     int palabra = 0;
         for (int i=1;  i<qq ; i++) {
