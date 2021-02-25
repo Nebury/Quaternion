@@ -689,7 +689,7 @@ void ChatRoomWidget::sendInput(){
     std::cout << "El numero de palabras son: " << palabra << "\n";
 
     int hola = 0;
-        for (int i= 0; i<qq; ++i){
+        for (int i= 3; i<qq; ++i){
 
         char h = tolower(miTexto[i-3]);
         char o = tolower(miTexto[i-2]);
