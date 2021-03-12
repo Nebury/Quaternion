@@ -18,7 +18,7 @@
  **************************************************************************/
 
 #include "chatroomwidget.h"
-
+#include <iostream>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QToolButton>
@@ -648,6 +648,9 @@ QString ChatRoomWidget::sendCommand(const QStringRef& command,
 
 void ChatRoomWidget::sendInput()
 {
+    _mensajes_enviados++;
+    std::cout << "Mensajes enviados: " << _mensajes_enviados << "\n";
+    
     if (!attachedFileName.isEmpty())
         sendFile();
     else {
